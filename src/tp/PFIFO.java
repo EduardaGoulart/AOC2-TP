@@ -16,4 +16,9 @@ public class PFIFO implements Politica{
 
         return bloco[i];
     }
+
+    public String toString(){
+        
+        return "FIFO";
+    }
 }

@@ -41,6 +41,8 @@ public class Application {
         
         int nBlocos;
         
+        System.out.print("Digite o número de blocos da Cache: ");
+
         do{
             try{
                 nBlocos = Integer.parseInt(scanner.nextLine());
@@ -66,6 +68,104 @@ public class Application {
         return nBlocos;
     }
 
+    private static int lerNumVias(int numBlocos){
+
+        if(numBlocos == 1){
+
+            return 1;
+        }
+        else{
+
+            for(int i = 0; Math.pow(2, i) <= numBlocos; i++){
+
+                if(i == 0){
+
+                    System.out.println((i + 1) + ") Totalmente Associativa");
+                }
+                else if(Math.pow(2, i) == numBlocos){
+
+                    System.out.println((i + 1) + ") Diretamente Mapeada");
+                }
+                else{
+
+                    System.out.println((i + 1) + ") " + (int) Math.pow(2, i) + " Conjuntos");
+                }
+            }
+
+            System.out.print("Selecione a associatividade: ");
+
+            int numVias;
+
+            do{
+                try{
+                    
+                    numVias = (int) Math.pow(2, Integer.parseInt(scanner.nextLine()) - 1);
+                }
+                catch(NumberFormatException e){
+                    
+                    numVias = 0;
+                }
+
+                if(!(numVias > 0 && (numVias & (numVias - 1)) == 0 && numVias <= numBlocos)){
+
+                    System.out.print("Opção Inválida, tente de novo: ");
+                }
+
+            }while(!(numVias > 0 && (numVias & (numVias - 1)) == 0 && numVias <= numBlocos));
+
+            return numVias;
+        }
+    }
+
+    private static Politica lerPolitica(int numBlocos, int numVias){
+
+        int menu;
+
+        if(numVias != numBlocos){
+
+            Politica politica = null;
+            
+            System.out.println("1) Least Frequently Used (LFU)");
+            System.out.println("2) First In, First Out (FIFO)");
+            System.out.println("3) Random");
+            System.out.print("Selecione a política de substituição da Cache: ");
+
+            do{
+                try{
+                    menu = Integer.parseInt(scanner.nextLine());
+                }
+                catch(NumberFormatException e){
+
+                    menu = 0;
+                }
+    
+                switch(menu){
+    
+                    case 1:
+                        politica = new PLFU();
+                        break;
+    
+                    case 2:
+                        politica = new PFIFO();
+                        break;
+    
+                    case 3:
+                        politica = new PRandom();
+                        break;
+    
+                    default:
+                        System.out.print("Opção Inválida, tente de novo: ");
+                }
+            }while(!(menu == 1 || menu == 2 || menu == 3));
+
+            return politica;
+        }
+        else{
+            
+            return new PFIFO();
+        }        
+    }
+
     private static Computador computadorPersonalizado(){
 
         CPU[] cpus = new CPU[4];
@@ -74,152 +174,30 @@ public class Application {
         Politica politicaL1 = null, politicaL2 = null;
 
         System.out.println("Configuração da Cache L1");
-        System.out.print("Digite o número de blocos da Cache L1: ");
 
         nBlocosL1 = lerNumBlocos(64);
 
-        System.out.println("1) Diretamente Mapeada");
-        System.out.println("2) 2 Conjuntos");
-        System.out.println("3) 4 Conjuntos");
-        System.out.println("4) Totalmente Associativa");
-        System.out.print("Selecione a associacividade da Cache L1: ");
-
-        int menu;
-
-        do{
-            menu = Integer.parseInt(scanner.nextLine());
-
-            switch(menu){
-
-                case 1:
-                    nViasL1 = nBlocosL1;
-                    break;
-
-                case 2:
-                    nViasL1 = 2;
-                    break;
-
-                case 3:
-                    nViasL1 = 4;
-                    break;
-
-                case 4:
-                    nViasL1 = 1;
-                    break;
-
-                default:
-                    System.out.print("Opção Inválida, tente de novo: ");
-            }
-        }while(!(menu == 1 || menu == 2 || menu == 3 || menu == 4));
-
-        if(nViasL1 != nBlocosL1){
-
-            System.out.println("1) Least Frequently Used (LFU)");
-            System.out.println("2) First In, First Out (FIFO)");
-            System.out.println("3) Random");
-            System.out.print("Selecione a política de substituição da Cache L1: ");
-
-            do{
-                menu = Integer.parseInt(scanner.nextLine());
-    
-                switch(menu){
-    
-                    case 1:
-                        politicaL1 = new PLFU();
-                        break;
-    
-                    case 2:
-                        politicaL1 = new PFIFO();
-                        break;
-    
-                    case 3:
-                        politicaL1 = new PRandom();
-                        break;
-    
-                    default:
-                        System.out.print("Opção Inválida, tente de novo: ");
-                }
-            }while(!(menu == 1 || menu == 2 || menu == 3));
-        }
-        else{
-            
-            politicaL1 = new PFIFO();
-        }
+        nViasL1 = lerNumVias(nBlocosL1);
+        
+        politicaL1 = lerPolitica(nBlocosL1, nViasL1);
 
         System.out.println("Configuração da Cache L2 (256 palavras)");
-        System.out.print("Digite o número de blocos da Cache L2: ");
+
         nBlocosL2 = lerNumBlocos(256);
 
-        System.out.println("1) Diretamente Mapeada");
-        System.out.println("2) 2 Conjuntos");
-        System.out.println("3) 4 Conjuntos");
-        System.out.println("4) Totalmente Associativa");
-        System.out.print("Selecione a associacividade da Cache L2: ");
+        nViasL2 = lerNumVias(nBlocosL2);
 
-        do{
-            menu = Integer.parseInt(scanner.nextLine());
-
-            switch(menu){
-
-                case 1:
-                    nViasL2 = nBlocosL2;
-                    break;
-
-                case 2:
-                    nViasL2 = 2;
-                    break;
-
-                case 3:
-                    nViasL2 = 4;
-                    break;
-
-                case 4:
-                    nViasL2 = 1;
-                    break;
-
-                default:
-                    System.out.print("Opção Inválida, tente de novo: ");
-            }
-        }while(!(menu == 1 || menu == 2 || menu == 3 || menu == 4));
-
-        if(nViasL2 != nBlocosL2){
-
-            System.out.println("1) Least Frequently Used (LFU)");
-            System.out.println("2) First In, First Out (FIFO)");
-            System.out.println("3) Random");
-            System.out.print("Selecione a política de substituição da Cache L2: ");
-
-            do{
-                menu = Integer.parseInt(scanner.nextLine());
-    
-                switch(menu){
-    
-                    case 1:
-                        politicaL2 = new PLFU();
-                        break;
-    
-                    case 2:
-                        politicaL2 = new PFIFO();
-                        break;
-    
-                    case 3:
-                        politicaL2 = new PRandom();
-                        break;
-    
-                    default:
-                        System.out.print("Opção Inválida, tente de novo: ");
-                }
-            }while(!(menu == 1 || menu == 2 || menu == 3));
-        }
-        else{
-            
-            politicaL2 = new PFIFO();
-        }
+        politicaL2 = lerPolitica(nBlocosL2, nViasL2);
 
         for(int i = 0; i < cpus.length; i++){
 
             cpus[i] = new CPU(new Cache(64, nViasL1, nBlocosL1, politicaL1), new Cache(256, nViasL2, nBlocosL2, politicaL2));
         }
+        
+        System.out.println("");
+        System.out.println("Criando CPUs com:");
+        System.out.println("Cache L1: 64 palavras, " + nBlocosL1 + " blocos, " + (nBlocosL1 == nViasL1 ? "diretamente mapeada" : (nViasL1 == 1 ? "totalmente associativa" : nViasL1 + " conjuntos")) + (nViasL1 != nBlocosL1 ? ", política de substituição " + politicaL1 : ""));
+        System.out.println("Cache L2: 256 palavras, " + nBlocosL1 + " blocos, " + (nBlocosL2 == nViasL2 ? "diretamente mapeada" : (nViasL2 == 1 ? "totalmente associativa" : nViasL2 + " conjuntos")) + (nViasL2 != nBlocosL2 ? ", política de substituição " + politicaL2 : ""));
 
         return new Computador(cpus);
     }

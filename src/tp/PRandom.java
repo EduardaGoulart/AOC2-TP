@@ -19,4 +19,9 @@ public class PRandom implements Politica{
 
         return bloco[random.nextInt(bloco.length)];
     }
+
+    public String toString(){
+
+        return "Random";
+    }
 }
