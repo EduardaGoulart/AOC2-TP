@@ -45,7 +45,7 @@ public class Bloco {
 	protected void setRecentementeUsado(boolean recentementeUsado) {
 		
 		this.recentementeUsado = recentementeUsado;
-		if(recentementeUsado == true){
+		if(recentementeUsado){
 			
 			++usos;
 		}

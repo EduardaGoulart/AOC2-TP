@@ -18,11 +18,11 @@ public class Cache {
 
         for(int i = 0; i < conjuntos.length; i++){ 
         	/*Preenche cada posição do conjunto com a quantidade de blocos por conjunto, 
-        	 * dado pela quantidade de blocos dividida pelo número de vias*/
+            * dado pela quantidade de blocos dividida pelo número de vias*/
             conjuntos[i] = new Conjunto(numBlocos / numVias);
         }
     }
-
+    
 	protected Conjunto[] getConjuntos(){
         
         return conjuntos;
@@ -33,11 +33,16 @@ public class Cache {
         return conjuntos[index];
     }
     
+    public Politica getPolitica() {
+        
+        return politica;
+    }
+
     /*cada índice determina a posição que a palavra ocupa no bloco, e é calculado
      * pela divisão do valor do endereço pelo tamanho do bloco, mod o tamanho do conjunto*/
     protected int calcularIndex(int endereco){
 
-        return (int) ((endereco / BLOCKSIZE) % conjuntos.length);
+        return  (endereco / BLOCKSIZE) % conjuntos.length;
     }
     
     /*para calcular os bits da tag basta dividir o endereço pelo tamanho do bloco e em seguida pelo tamanho do conjunto*/
@@ -81,24 +86,4 @@ public class Cache {
 
         return false;
     }
-
-    /**/
-    protected boolean writeHit(int endereco){
-        
-        Bloco bloco = buscarBloco(endereco);
-
-        if(bloco != null){
-            if(bloco.getMESI() != 'I'){
-
-                return true;
-            }
-        }
-        
-        return false;
-    }
-
-	public Politica getPolitica() {
-        
-        return politica;
-	}
 }
