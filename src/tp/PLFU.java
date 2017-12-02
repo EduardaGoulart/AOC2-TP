@@ -23,8 +23,7 @@ public class PLFU implements Politica{
             }
         }
         blocoMenosUsado.setRecentementeUsado(false);
-
-
+        
         return blocoMenosUsado;
     }
     

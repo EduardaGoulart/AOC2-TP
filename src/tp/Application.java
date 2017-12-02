@@ -21,22 +21,6 @@ public class Application {
         scanner.nextLine();
     }
 
-    private static Computador computadorPadrao(){
-
-        CPU[] cpus = new CPU[4];
-
-        for(int i = 0; i < 4; i++){
-
-            cpus[i] = new CPU(new Cache(64, 8, 8, new PFIFO()), new Cache(256, 4, 32, new PLFU()), i);
-        }
-
-        System.out.println("Criando CPUs com:");
-        System.out.println("Cache L1: 64 palavras, 8 blocos, diretamente mapeada");
-        System.out.println("Cache L2: 256 palavras, 32 blocos, 4 vias, política de substituição LFU");
-
-        return new Computador(cpus);
-    }
-
     private static int lerNumBlocos(int maxBlocos){
         
         int nBlocos;
@@ -166,28 +150,31 @@ public class Application {
         }        
     }
 
-    private static Computador computadorPersonalizado(){
+    private static Computador criaComputador(boolean padrao){
 
         CPU[] cpus = new CPU[4];
         int nBlocosL1 = 8, nBlocosL2 = 32;
         int nViasL1 = 8, nViasL2 = 4;
-        Politica politicaL1 = null, politicaL2 = null;
+        Politica politicaL1 = new PFIFO(), politicaL2 = new PLFU();
 
-        System.out.println("Configuração da Cache L1");
+        if(!padrao){
 
-        nBlocosL1 = lerNumBlocos(64);
+            System.out.println("Configuração da Cache L1");
 
-        nViasL1 = lerNumVias(nBlocosL1);
-        
-        politicaL1 = lerPolitica(nBlocosL1, nViasL1);
+            nBlocosL1 = lerNumBlocos(64);
 
-        System.out.println("Configuração da Cache L2 (256 palavras)");
+            nViasL1 = lerNumVias(nBlocosL1);
+            
+            politicaL1 = lerPolitica(nBlocosL1, nViasL1);
 
-        nBlocosL2 = lerNumBlocos(256);
+            System.out.println("Configuração da Cache L2 (256 palavras)");
 
-        nViasL2 = lerNumVias(nBlocosL2);
+            nBlocosL2 = lerNumBlocos(256);
 
-        politicaL2 = lerPolitica(nBlocosL2, nViasL2);
+            nViasL2 = lerNumVias(nBlocosL2);
+
+            politicaL2 = lerPolitica(nBlocosL2, nViasL2);
+        }
 
         for(int i = 0; i < cpus.length; i++){
 
@@ -197,7 +184,7 @@ public class Application {
         System.out.println("");
         System.out.println("Criando CPUs com:");
         System.out.println("Cache L1: 64 palavras, " + nBlocosL1 + " blocos, " + (nBlocosL1 == nViasL1 ? "diretamente mapeada" : (nViasL1 == 1 ? "totalmente associativa" : nViasL1 + " conjuntos")) + (nViasL1 != nBlocosL1 ? ", política de substituição " + politicaL1 : ""));
-        System.out.println("Cache L2: 256 palavras, " + nBlocosL1 + " blocos, " + (nBlocosL2 == nViasL2 ? "diretamente mapeada" : (nViasL2 == 1 ? "totalmente associativa" : nViasL2 + " conjuntos")) + (nViasL2 != nBlocosL2 ? ", política de substituição " + politicaL2 : ""));
+        System.out.println("Cache L2: 256 palavras, " + nBlocosL2 + " blocos, " + (nBlocosL2 == nViasL2 ? "diretamente mapeada" : (nViasL2 == 1 ? "totalmente associativa" : nViasL2 + " conjuntos")) + (nViasL2 != nBlocosL2 ? ", política de substituição " + politicaL2 : ""));
 
         return new Computador(cpus);
     }
@@ -233,12 +220,12 @@ public class Application {
                     break;
 
                 case 1:
-                    computador = computadorPadrao();
+                    computador = criaComputador(true);
                     esperarENTER();
                     return;
 
                 case 2:
-                    computador = computadorPersonalizado();
+                    computador = criaComputador(false);
                     esperarENTER();
                     return;
 
@@ -273,9 +260,8 @@ public class Application {
 
 		} catch (FileNotFoundException e) {
             
-            // TODO Auto-generated catch block
 			System.out.println("Não foi possível abrir o arquivo trace.txt: File Not Found");
-		}
+        }
     }
 
     private static void menuPrincipal(){
@@ -319,7 +305,7 @@ public class Application {
                     }
                     catch(Exception e){
 
-                        e.printStackTrace();
+                        e.getMessage();
                     }
                     esperarENTER();
                     break;

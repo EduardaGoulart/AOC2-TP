@@ -161,12 +161,8 @@ public class CPU {
         if(l1.hasBlocoValido(endereco)){
 
             Bloco blocoL1 = l1.buscarBloco(endereco);
-            Bloco blocoL2 = l2.buscarBloco(endereco);
-
+            
             blocoL1.setMESI('S');
-            blocoL2.setMESI('S');
-
-            return true;
         }
         if(l2.hasBlocoValido(endereco)){
 
@@ -192,16 +188,12 @@ public class CPU {
 
             blocoL1.setMESI('I');
             blocoL1.setRecentementeUsado(false);
-            
-            Bloco blocoL2 = l2.buscarBloco(endereco);
 
-            blocoL2.setMESI('I');
-            blocoL2.setRecentementeUsado(false);
         }
-        else if(l2.hasBlocoValido(endereco)){
+        if(l2.hasBlocoValido(endereco)){
 
             Bloco blocoL2 = l2.buscarBloco(endereco);
-            
+
             blocoL2.setMESI('I');
             blocoL2.setRecentementeUsado(false);
         }

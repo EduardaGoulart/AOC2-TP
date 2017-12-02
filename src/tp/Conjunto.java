@@ -30,6 +30,7 @@ public class Conjunto {
 
     protected void incrementarIndexFIFO() {
         
-        indexFIFO = (++indexFIFO) % blocos.length;
+        indexFIFO++;
+        indexFIFO = indexFIFO % blocos.length;
     }
 }
