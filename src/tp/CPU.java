@@ -43,11 +43,11 @@ public class CPU {
             if(l2.hasBlocoValido(endereco)){
 
                 escritor.println("L2: HIT - Endereço " + Integer.toBinaryString(endereco));
+                blocoL2 = l2.buscarBloco(endereco);
+                blocoL2.setRecentementeUsado(true);
 
                 blocoL1 = l1.getPolitica().getBloco(l1, endereco);
                 escritor.println("L1: Substituindo Bloco - Tag " + Integer.toBinaryString(blocoL1.getTag()));
-                blocoL2 = l2.buscarBloco(endereco);
-                blocoL2.setRecentementeUsado(true);
                 
                 blocoL1.setMESI(blocoL2.getMESI());
                 blocoL1.setTag(l1.calcularTag(endereco));
