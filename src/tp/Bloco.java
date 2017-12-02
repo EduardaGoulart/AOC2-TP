@@ -8,7 +8,7 @@ public class Bloco {
     private int tag; //tag do endereço
     private char mesi; //estado em que está no protocolo mesi
 	private boolean recentementeUsado; //para marcar a política LRU
-	private int usos; 
+	private int usos;
 
 	/*Construtor, setando os valores iniciais*/
     protected Bloco(Conjunto conjunto){

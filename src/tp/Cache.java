@@ -17,7 +17,8 @@ public class Cache {
         politica = politicaDeSubstituicao; //recebe a política de substituição escolhida
 
         for(int i = 0; i < conjuntos.length; i++){ 
-        	/*Preenche cada posição do conjunto com a quantidade de blocos por conjunto, 
+            
+            /*Preenche cada posição do conjunto com a quantidade de blocos por conjunto, 
             * dado pela quantidade de blocos dividida pelo número de vias*/
             conjuntos[i] = new Conjunto(numBlocos / numVias);
         }

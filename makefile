@@ -5,4 +5,5 @@ c:
 r:
 	java -cp bin/ tp.Application
 clean:
-	rm bin/*/*.class
+	rm bin/ -r
+	rm cpu*.txt

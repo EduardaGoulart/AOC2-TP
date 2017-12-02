@@ -27,7 +27,7 @@ public class Application {
 
         for(int i = 0; i < 4; i++){
 
-            cpus[i] = new CPU(new Cache(64, 8, 8, new PFIFO()), new Cache(256, 4, 32, new PLFU()));
+            cpus[i] = new CPU(new Cache(64, 8, 8, new PFIFO()), new Cache(256, 4, 32, new PLFU()), i);
         }
 
         System.out.println("Criando CPUs com:");
@@ -191,7 +191,7 @@ public class Application {
 
         for(int i = 0; i < cpus.length; i++){
 
-            cpus[i] = new CPU(new Cache(64, nViasL1, nBlocosL1, politicaL1), new Cache(256, nViasL2, nBlocosL2, politicaL2));
+            cpus[i] = new CPU(new Cache(64, nViasL1, nBlocosL1, politicaL1), new Cache(256, nViasL2, nBlocosL2, politicaL2), i);
         }
         
         System.out.println("");
