@@ -153,7 +153,7 @@ public class Application {
     private static Computador criaComputador(boolean padrao){
 
         CPU[] cpus = new CPU[4];
-        int nBlocosL1 = 8, nBlocosL2 = 32;
+        int nBlocosL1 = 8, nBlocosL2 = 64;
         int nViasL1 = 8, nViasL2 = 4;
         Politica politicaL1 = new PFIFO(), politicaL2 = new PLFU();
 
@@ -167,9 +167,9 @@ public class Application {
             
             politicaL1 = lerPolitica(nBlocosL1, nViasL1);
 
-            System.out.println("Configuração da Cache L2 (256 palavras)");
+            System.out.println("Configuração da Cache L2 (512 palavras)");
 
-            nBlocosL2 = lerNumBlocos(256);
+            nBlocosL2 = lerNumBlocos(512);
 
             nViasL2 = lerNumVias(nBlocosL2);
 
@@ -178,13 +178,13 @@ public class Application {
 
         for(int i = 0; i < cpus.length; i++){
 
-            cpus[i] = new CPU(new Cache(64, nViasL1, nBlocosL1, politicaL1), new Cache(256, nViasL2, nBlocosL2, politicaL2), i);
+            cpus[i] = new CPU(new Cache(64, nViasL1, nBlocosL1, politicaL1), new Cache(512, nViasL2, nBlocosL2, politicaL2), i);
         }
         
         System.out.println("");
         System.out.println("Criando CPUs com:");
         System.out.println("Cache L1: 64 palavras, " + nBlocosL1 + " blocos, " + (nBlocosL1 == nViasL1 ? "diretamente mapeada" : (nViasL1 == 1 ? "totalmente associativa" : nViasL1 + " conjuntos")) + (nViasL1 != nBlocosL1 ? ", política de substituição " + politicaL1 : ""));
-        System.out.println("Cache L2: 256 palavras, " + nBlocosL2 + " blocos, " + (nBlocosL2 == nViasL2 ? "diretamente mapeada" : (nViasL2 == 1 ? "totalmente associativa" : nViasL2 + " conjuntos")) + (nViasL2 != nBlocosL2 ? ", política de substituição " + politicaL2 : ""));
+        System.out.println("Cache L2: 512 palavras, " + nBlocosL2 + " blocos, " + (nBlocosL2 == nViasL2 ? "diretamente mapeada" : (nViasL2 == 1 ? "totalmente associativa" : nViasL2 + " conjuntos")) + (nViasL2 != nBlocosL2 ? ", política de substituição " + politicaL2 : ""));
 
         return new Computador(cpus);
     }
