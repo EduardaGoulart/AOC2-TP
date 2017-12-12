@@ -159,7 +159,7 @@ public class Application {
 
         if(!padrao){
 
-            System.out.println("Configuração da Cache L1");
+            System.out.println("Configuração da Cache L1 (64 palavras)");
 
             nBlocosL1 = lerNumBlocos(64);
 
@@ -257,6 +257,10 @@ public class Application {
 
             leitor.close();
             System.out.println("Foram gerados 4 arquivos (1 para cada CPU) contendo os acessos de memória");
+
+            for(CPU cpu : computador.getCPUs()){
+                System.out.printf("Taxa de acertos CPU %d: %.2f%% %n", cpu.getID(), cpu.getTaxaDeAcerto());
+            }
 
 		} catch (FileNotFoundException e) {
             

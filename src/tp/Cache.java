@@ -8,8 +8,7 @@ public class Cache {
     private final Conjunto[] conjuntos; //vetor de Conjuntos que serão adicionados na cache
     private final Politica politica; //política de substituição que será utilizada
     private final int BLOCKSIZE; //tamanho do bloco
-    
-    
+
     protected Cache(int CACHESIZE, int numVias, int numBlocos, Politica politicaDeSubstituicao){
 
         conjuntos = new Conjunto[numVias]; //cada conjunto possui como tamanho a quantidade de vias
