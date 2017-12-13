@@ -5,9 +5,10 @@ package tp;
  */
 public class Conjunto {
     
-    private final Bloco[] blocos;
-    private int indexFIFO;
+    private final Bloco[] blocos; //possui um vetor de blocos
+    private int indexFIFO; //possui um valor para a política do FIFO
     
+    /*Seta o bloco com a quantidade de blocos e a política de first in first out como zero*/
     protected Conjunto(int SETSIZE){
         
         blocos = new Bloco[SETSIZE];
@@ -27,7 +28,8 @@ public class Conjunto {
     protected int getIndexFIFO() {
         return indexFIFO;
     }
-
+    
+    /*Quando o bloco é usado, o valor é atualizado somando mais um mod o tamanho do bloco*/
     protected void incrementarIndexFIFO() {
         
         indexFIFO++;

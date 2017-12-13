@@ -2,6 +2,7 @@ package tp;
 
 import java.util.Random;
 
+/*Política de substituição que escolhe um endereço random para substituir*/
 public class PRandom implements Politica{
 
     private final Random random;
@@ -10,7 +11,9 @@ public class PRandom implements Politica{
 
         random = new Random();
     }
-
+    
+    /*Calcula dentro da quantidade de blocos do conjunto, um valor qualquer aleatório
+     * o endereço que ocupar este valor será substituído*/
     @Override
     public Bloco getBloco(Cache cache, int endereco){
 

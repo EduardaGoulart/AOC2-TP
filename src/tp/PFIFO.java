@@ -1,10 +1,13 @@
 package tp;
 
 /**
- * PFifo
+ * PFifo(primeiro adicionado, será o primeiro a ser removido)
  */
 public class PFIFO implements Politica{
-
+	
+	/*Sobrescreve a interface das políticas de substituição,
+	 * cada índice de um bloco recebe um valor de incremento do seu estado
+	 * de uso*/
     @Override
     public Bloco getBloco(Cache cache, int endereco){
 

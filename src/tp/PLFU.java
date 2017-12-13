@@ -1,10 +1,13 @@
 package tp;
 
 /**
- * PLFU
+ * PLFU(o último mais frequentemente usado)
  */
 public class PLFU implements Politica{
-
+	
+	/*cada bloco na posição usada recebe um valor, quanto menor o valor
+	 * significa que ele foi menos frequentemente usado, 
+	 * portanto ele será o bloco a ser excluído*/
 	@Override
 	public Bloco getBloco(Cache cache, int endereco) {
         

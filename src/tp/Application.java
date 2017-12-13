@@ -4,11 +4,12 @@ import java.io.*;
 import java.util.Scanner;
 
 public class Application {
-
+	
     private static Scanner scanner = new Scanner(System.in);
-
-    private static Computador computador;
-
+    
+    private static Computador computador; //cria uma instância do computador
+    
+    /*Método usado para limpar a tela quando o usuário selecionar uma nova operação*/
     private static void limparTela() {  
     
         System.out.print("\033[H\033[2J");  
@@ -20,7 +21,9 @@ public class Application {
         System.out.println("Pressioner ENTER para continuar");
         scanner.nextLine();
     }
-
+    
+    /*Lê a quantidade de blocos da cahce, confere se o valor digitado não foi zero
+     * Caso não for, confere se o número de blocos é menor que o tamanho máximo permitido*/
     private static int lerNumBlocos(int maxBlocos){
         
         int nBlocos;
@@ -51,7 +54,9 @@ public class Application {
 
         return nBlocos;
     }
-
+    
+    /*Lê a quantidade de vias por bloco, caso a quantidade de vias seja 1, ela é totalmente associativa,
+     * caso seja maior que 1, é diretamente mapeada, se for n, é associativa por conjunto*/
     private static int lerNumVias(int numBlocos){
 
         if(numBlocos == 1){
@@ -75,7 +80,9 @@ public class Application {
                     System.out.println((i + 1) + ") " + (int) Math.pow(2, i) + " Conjuntos");
                 }
             }
-
+            
+            /*Teste se a associatividade é um valor válido, se for zero ou maior que a quantidade
+             * de blocos, não será possível mapear*/
             System.out.print("Selecione a associatividade: ");
 
             int numVias;
@@ -100,11 +107,14 @@ public class Application {
             return numVias;
         }
     }
-
+    
+    /*Seleciona a política de substituição que será utilizada*/
     private static Politica lerPolitica(int numBlocos, int numVias){
 
         int menu;
-
+        
+        /*Imprime o menu e confere se o valor digitado é uma entrada válida, caso seja, 
+         * realiza a substituição escolhida pelo usuário*/
         if(numVias != numBlocos){
 
             Politica politica = null;
@@ -149,7 +159,8 @@ public class Application {
             return new PFIFO();
         }        
     }
-
+    
+    /*Cria um computador para gerar as configurações da cache*/
     private static Computador criaComputador(boolean padrao){
 
         CPU[] cpus = new CPU[4];
@@ -236,6 +247,7 @@ public class Application {
         }while(menu != 0);
     }
 
+    /*Método utilizado para realizar leitura de arquivos*/
     private static void lerArquivo() throws NullPointerException{
 
         try {

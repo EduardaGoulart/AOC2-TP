@@ -5,10 +5,11 @@ package tp;
  */
 public class Computador {
 
-    private final CPU[] cpus;
+    private final CPU[] cpus; //Cria um vetor com a quantidade de CPUs
 
-    private final Barramento barramento;
-
+    private final Barramento barramento; //uma referência do barramento
+    
+    /*Seta cada CPU com um sinal do barramento*/
     public Computador(CPU[] cpus){
 
         this.cpus = cpus;
